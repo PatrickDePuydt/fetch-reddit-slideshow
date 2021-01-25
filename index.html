@@ -14,8 +14,14 @@
   const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
   const redditPromise = fetch(endpoint)
 
-  redditPromise.then( data => {
-      console.log(`✅ data: `, data)
+  redditPromise.then( response => {
+      return response.json();
+  }).then( data => {
+    let prefix = data.data.children;
+
+    prefix.map( inner => {
+      console.log(`✅ inner`, inner.data.thumbnail)
+    })
   }).catch(error => console.log(`❌Error`, error));
 
 </script>
