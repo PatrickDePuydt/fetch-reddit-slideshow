@@ -9,4 +9,14 @@
   <h1>Hello Front-End</h1>
 </body>
 <script src="js/index.js"></script>
+
+<script>
+  const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
+  const redditPromise = fetch(endpoint)
+
+  redditPromise.then( data => {
+      console.log(`✅ data: `, data)
+  }).catch(error => console.log(`❌Error`, error));
+
+</script>
 </html>
