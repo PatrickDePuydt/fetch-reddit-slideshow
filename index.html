@@ -7,12 +7,21 @@
 </head>
 <body>
   <h1>Hello Front-End</h1>
+
+  <main class="slideshow">
+
+  </main>
 </body>
 <script src="js/index.js"></script>
 
 <script>
   const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
   const redditPromise = fetch(endpoint)
+  const slideshow = document.querySelector('.slideshow');
+
+  const handleImageInjection= (image) =>  {
+    slideshow.append(`<img src="${image}"/>`)
+  }
 
   redditPromise.then( response => {
       return response.json();
@@ -20,8 +29,9 @@
     let prefix = data.data.children;
 
     prefix.map( inner => {
-      console.log(`✅ inner`, inner.data.thumbnail)
-    })
+      handleImageInjection(inner.data.thumbnail);
+    });
+
   }).catch(error => console.log(`❌Error`, error));
 
 </script>
