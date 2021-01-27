@@ -9,30 +9,33 @@
   <h1>Hello Front-End</h1>
 
   <main class="slideshow">
-
+    <div class="slideshow-content"></div>
+    <button type="button">Refresh</button>
   </main>
 </body>
 <script src="js/index.js"></script>
 
 <script>
   const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
-  const redditPromise = fetch(endpoint)
-  const slideshow = document.querySelector('.slideshow');
+  const redditPromise = fetch(endpoint);
+  const slideshow = document.querySelector('.slideshow-content');
 
   const handleImageInjection= (image) =>  {
-    slideshow.append(`<img src="${image}"/>`)
+    const newImage = new Image(100, 200);
+    newImage.src = image;
+    slideshow.appendChild(newImage);
   }
 
   redditPromise.then( response => {
+      console.log(`🧡 Reddit promise`, response)
       return response.json();
   }).then( data => {
-    let prefix = data.data.children;
-
+    const prefix = data.data.children;
     prefix.map( inner => {
       handleImageInjection(inner.data.thumbnail);
     });
 
-  }).catch(error => console.log(`❌Error`, error));
+  }).catch(error => console.log(`❌ Error`, error));
 
 </script>
 </html>
