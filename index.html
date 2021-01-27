@@ -13,7 +13,6 @@
     <button type="button">Refresh</button>
   </main>
 </body>
-<script src="js/index.js"></script>
 
 <script>
   const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
@@ -21,20 +20,23 @@
   const slideshow = document.querySelector('.slideshow-content');
 
   const handleImageInjection= (image) =>  {
-    const newImage = new Image(100, 200);
+    const newImage = new Image();
     newImage.src = image;
     slideshow.appendChild(newImage);
   }
 
   redditPromise.then( response => {
-      console.log(`🧡 Reddit promise`, response)
       return response.json();
   }).then( data => {
     const prefix = data.data.children;
     prefix.map( inner => {
-      handleImageInjection(inner.data.thumbnail);
-    });
+      const slidshowImage = inner.data.url_overridden_by_dest;
 
+      if(slidshowImage) {
+        handleImageInjection(inner.data.thumbnail);
+      }
+      
+    });
   }).catch(error => console.log(`❌ Error`, error));
 
 </script>
