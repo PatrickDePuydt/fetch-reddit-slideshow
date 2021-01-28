@@ -40,6 +40,30 @@
   const slideshow = document.querySelector('.slideshow-content');
   const slideshowImage = document.querySelector('.slideshow-image');
   const stopButton = document.querySelector('button');
+  
+  // Event Listeners
+  stopButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    clearInterval(interval);
+    htmlForm.style.display = "block"
+  })
+
+  // form submit event listener
+  htmlForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm();
+  })
+
+  const submitForm = () => {
+    console.log(`Working`)
+  }
+
+  
+  const showImage = () => {
+    console.log(`🍕 Show imgae`)
+  }
+
+
 
   const handleImageInjection= (image) =>  {
     const newImage = new Image();
@@ -60,6 +84,11 @@
       
     });
   }).catch(error => console.log(`❌ Error`, error));
+
+    const handleRotation = ()=> {
+   // Set position
+   // Set the interval to switch the image
+  }
 
 </script>
 </html>
