@@ -36,9 +36,10 @@
 </body>
 
 <script>
-  const endpoint = 'http://www.reddit.com/search.json?q=cats+nsfw:no';
-  const redditPromise = fetch(endpoint);
+  const htmlForm = document.querySelector('form');
   const slideshow = document.querySelector('.slideshow-content');
+  const slideshowImage = document.querySelector('.slideshow-image');
+  const stopButton = document.querySelector('button');
 
   const handleImageInjection= (image) =>  {
     const newImage = new Image();
