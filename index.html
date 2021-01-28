@@ -40,6 +40,11 @@
   const slideshow = document.querySelector('.slideshow-content');
   const slideshowImage = document.querySelector('.slideshow-image');
   const stopButton = document.querySelector('button');
+
+    // Initializers
+  let currentIndex = 0;
+  let interval;
+  let images = [];
   
   // Event Listeners
   stopButton.addEventListener('click', (e) => {
@@ -54,8 +59,28 @@
     submitForm();
   })
 
-  const submitForm = () => {
-    console.log(`Working`)
+ const submitForm = () => {
+    let term = document.getElementById("term").value;
+    let queryUrl = `http://www.reddit.com/search.json?q=${term}+nsfw:no`;
+
+    fetch(queryUrl).then(response => {
+      return response.json();
+    }).then(data => {
+      // reset the images array to empty
+      images = [];
+
+      const prefix = data.data.children;
+      prefix.map(inner => {
+        const slidshowImage = inner.data.url_overridden_by_dest;
+        if (slidshowImage) {
+          images.push(inner.data.thumbnail);
+        }
+      })
+      // hide the form
+      htmlForm.style.display = 'none'
+    }).then(handleRotation)
+      .catch(error => console.log(`❌ Error`, error));
+
   }
 
   
@@ -65,25 +90,25 @@
 
 
 
-  const handleImageInjection= (image) =>  {
-    const newImage = new Image();
-    newImage.src = image;
-    slideshow.appendChild(newImage);
-  }
+  // const handleImageInjection= (image) =>  {
+  //   const newImage = new Image();
+  //   newImage.src = image;
+  //   slideshow.appendChild(newImage);
+  // }
 
-  redditPromise.then( response => {
-      return response.json();
-  }).then( data => {
-    const prefix = data.data.children;
-    prefix.map( inner => {
-      const slidshowImage = inner.data.url_overridden_by_dest;
+  // redditPromise.then( response => {
+  //     return response.json();
+  // }).then( data => {
+  //   const prefix = data.data.children;
+  //   prefix.map( inner => {
+  //     const slidshowImage = inner.data.url_overridden_by_dest;
 
-      if(slidshowImage) {
-        handleImageInjection(inner.data.thumbnail);
-      }
+  //     if(slidshowImage) {
+  //       handleImageInjection(inner.data.thumbnail);
+  //     }
       
-    });
-  }).catch(error => console.log(`❌ Error`, error));
+  //   });
+  // }).catch(error => console.log(`❌ Error`, error));
 
     const handleRotation = ()=> {
    // Set position
