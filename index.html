@@ -6,15 +6,8 @@
   <title>Reddit Slideshow</title>
     <style>
     .slideshow-content {
-      border: 5px solid gold;
       display: flex;
-      width: 70vw;
-      height: 500px;
-      flex-wrap: wrap;
-    }
-
-    .slideshow-content img {
-      flex: 1;
+      justify-content: center;
     }
   </style>
 </head>
@@ -40,13 +33,12 @@
   const slideshow = document.querySelector('.slideshow-content');
   const slideshowImage = document.querySelector('.slideshow-image');
   const stopButton = document.querySelector('button');
-
-    // Initializers
+  
   let currentIndex = 0;
   let interval;
   let images = [];
-  
-  // Event Listeners
+
+  // slideshow stop event listener
   stopButton.addEventListener('click', (e) => {
     e.preventDefault();
     clearInterval(interval);
@@ -59,7 +51,7 @@
     submitForm();
   })
 
- const submitForm = () => {
+  const submitForm = () => {
     let term = document.getElementById("term").value;
     let queryUrl = `http://www.reddit.com/search.json?q=${term}+nsfw:no`;
 
@@ -82,38 +74,21 @@
       .catch(error => console.log(`❌ Error`, error));
 
   }
-
   
   const showImage = () => {
-    console.log(`🍕 Show imgae`)
+    // update the image src
+    slideshowImage.src = images[currentIndex];
+    currentIndex++
   }
 
+  const handleRotation = ()=> {
+    // start at 0 if we hit the end 
+    if (currentIndex >= images.length) {
+      currentIndex = 0
+    }
 
-
-  // const handleImageInjection= (image) =>  {
-  //   const newImage = new Image();
-  //   newImage.src = image;
-  //   slideshow.appendChild(newImage);
-  // }
-
-  // redditPromise.then( response => {
-  //     return response.json();
-  // }).then( data => {
-  //   const prefix = data.data.children;
-  //   prefix.map( inner => {
-  //     const slidshowImage = inner.data.url_overridden_by_dest;
-
-  //     if(slidshowImage) {
-  //       handleImageInjection(inner.data.thumbnail);
-  //     }
-      
-  //   });
-  // }).catch(error => console.log(`❌ Error`, error));
-
-    const handleRotation = ()=> {
-   // Set position
-   // Set the interval to switch the image
+    // Load the next image
+    interval = setInterval(showImage, 2000)
   }
-
 </script>
 </html>
